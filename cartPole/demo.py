@@ -1,6 +1,6 @@
 import gym  
 import numpy as np
-
+import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.optimizers.legacy import Adam
@@ -8,7 +8,7 @@ from tensorflow.keras.optimizers.legacy import Adam
 from rl.agents import DQNAgent 
 from rl.policy import BoltzmannQPolicy  
 from rl.memory import SequentialMemory
-
+print(tf.config.list_physical_devices('GPU'))
 env = gym.make("CartPole-v1")  
 
 states = env.observation_space.shape[0]
@@ -23,6 +23,7 @@ model.add(Dense(24, activation="relu"))
 model.add(Dense(24, activation="relu"))
 model.add(Dense(actions, activation="linear"))
 
+
 agent = DQNAgent(
     model=model,
     memory=SequentialMemory(limit=50000, window_length=1),
@@ -31,6 +32,8 @@ agent = DQNAgent(
     nb_steps_warmup=10,
     target_model_update=0.01
 )
+
+
 
 print(env)
 print(env.observation_space)
